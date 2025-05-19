@@ -1,0 +1,153 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Class to represent a single inventory item
+class InventoryItem {
+    String id;
+    String name;
+    int quantity;
+    double price;
+
+    // Constructor
+    InventoryItem(String id, String name, int quantity, double price) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    // Display item details
+    public void display() {
+        System.out.println("ID: " + id + " | Name: " + name + " | Quantity: " + quantity + " | Price: ₹" + price);
+    }
+}
+
+// Manager class for handling inventory operations
+class PharmacyInventory {
+    ArrayList<InventoryItem> inventory = new ArrayList<>();
+
+    // Add new item
+    public void addItem(InventoryItem item) {
+        inventory.add(item);
+        System.out.println("Item added successfully.\n");
+    }
+
+    // Update item by ID
+    public void updateItem(String id, int quantity, double price) {
+        for (InventoryItem item : inventory) {
+            if (item.id.equals(id)) {
+                item.quantity = quantity;
+                item.price = price;
+                System.out.println("Item updated successfully.\n");
+                return;
+            }
+        }
+        System.out.println("Item with ID " + id + " not found.\n");
+    }
+
+    // Remove item by ID
+    public void removeItem(String id) {
+        for (InventoryItem item : inventory) {
+            if (item.id.equals(id)) {
+                inventory.remove(item);
+                System.out.println("Item removed successfully.\n");
+                return;
+            }
+        }
+        System.out.println("Item with ID " + id + " not found.\n");
+    }
+
+    // Display all items
+    public void displayAllItems() {
+        if (inventory.isEmpty()) {
+            System.out.println("Inventory is empty.\n");
+        } else {
+            System.out.println("Inventory List:");
+            for (InventoryItem item : inventory) {
+                item.display();
+            }
+            System.out.println();
+        }
+    }
+
+    // Search for item by ID
+    public void searchItemById(String id) {
+        for (InventoryItem item : inventory) {
+            if (item.id.equals(id)) {
+                System.out.println("Item found:");
+                item.display();
+                return;
+            }
+        }
+        System.out.println("Item with ID " + id + " not found.\n");
+    }
+}
+
+// Main class
+public class HospitalPharmacyApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        PharmacyInventory inventoryManager = new PharmacyInventory();
+
+        while (true) {
+            System.out.println("\n--- Hospital Pharmacy Inventory Menu ---");
+            System.out.println("1. Add Item");
+            System.out.println("2. Update Item");
+            System.out.println("3. Remove Item");
+            System.out.println("4. Display All Items");
+            System.out.println("5. Search Item by ID");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+            sc.nextLine(); // Clear buffer
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    String id = sc.nextLine();
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    System.out.print("Enter Quantity: ");
+                    int qty = sc.nextInt();
+                    System.out.print("Enter Price: ");
+                    double price = sc.nextDouble();
+                    inventoryManager.addItem(new InventoryItem(id, name, qty, price));
+                    break;
+
+                case 2:
+                    System.out.print("Enter ID to update: ");
+                    String updateId = sc.nextLine();
+                    System.out.print("Enter new Quantity: ");
+                    int newQty = sc.nextInt();
+                    System.out.print("Enter new Price: ");
+                    double newPrice = sc.nextDouble();
+                    inventoryManager.updateItem(updateId, newQty, newPrice);
+                    break;
+
+                case 3:
+                    System.out.print("Enter ID to remove: ");
+                    String removeId = sc.nextLine();
+                    inventoryManager.removeItem(removeId);
+                    break;
+
+                case 4:
+                    inventoryManager.displayAllItems();
+                    break;
+
+                case 5:
+                    System.out.print("Enter ID to search: ");
+                    String searchId = sc.nextLine();
+                    inventoryManager.searchItemById(searchId);
+                    break;
+
+                case 6:
+                    System.out.println("Exiting... Thank you!");
+                    sc.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid choice! Try again.\n");
+            }
+        }
+    }
+}
