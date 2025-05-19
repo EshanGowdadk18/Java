@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class TextProcessingTool {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input strings
+        System.out.print("Enter first string: ");
+        String str1 = sc.nextLine();
+
+        System.out.print("Enter second string: ");
+        String str2 = sc.nextLine();
+
+        // 1. Compare strings
+        if (str1.equals(str2)) {
+            System.out.println("Strings are equal.");
+        } else {
+            System.out.println("Strings are NOT equal.");
+        }
+
+        // 2. Concatenate strings
+        String concatenated = str1 + " " + str2;
+        System.out.println("Concatenated String: " + concatenated);
+
+        // 3. Copy string
+        String copyOfStr1 = new String(str1);
+        System.out.println("Copy of First String: " + copyOfStr1);
+
+        sc.close();
+    }
+}
