@@ -1,0 +1,130 @@
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+
+// i. Stack Interface
+interface StackOperations<T> {
+    void push(T item) throws Exception;
+    T pop() throws Exception;
+    T peek() throws Exception;
+    boolean isEmpty();
+    boolean isFull();
+}
+
+// ii. Fixed length stack implementation
+class FixedStack<T> implements StackOperations<T> {
+    private T[] stackArray;
+    private int top;
+    private int capacity;
+
+    @SuppressWarnings("unchecked")
+    public FixedStack(int size) {
+        capacity = size;
+        stackArray = (T[]) new Object[size];
+        top = -1;
+    }
+
+    @Override
+    public void push(T item) throws Exception {
+        if (isFull()) {
+            throw new Exception("Stack Overflow: Cannot push " + item);
+        }
+        stackArray[++top] = item;
+    }
+
+    @Override
+    public T pop() throws Exception {
+        if (isEmpty()) {
+            throw new Exception("Stack Underflow: Cannot pop from empty stack");
+        }
+        return stackArray[top--];
+    }
+
+    @Override
+    public T peek() throws Exception {
+        if (isEmpty()) {
+            throw new Exception("Stack is empty: Cannot peek");
+        }
+        return stackArray[top];
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return top == -1;
+    }
+
+    @Override
+    public boolean isFull() {
+        return top == capacity - 1;
+    }
+}
+
+// iii. Dynamic length stack implementation
+class DynamicStack<T> implements StackOperations<T> {
+    private ArrayList<T> stackList;
+
+    public DynamicStack() {
+        stackList = new ArrayList<>();
+    }
+
+    @Override
+    public void push(T item) {
+        stackList.add(item);
+    }
+
+    @Override
+    public T pop() throws Exception {
+        if (isEmpty()) {
+            throw new Exception("Stack Underflow: Cannot pop from empty stack");
+        }
+        return stackList.remove(stackList.size() - 1);
+    }
+
+    @Override
+    public T peek() throws Exception {
+        if (isEmpty()) {
+            throw new Exception("Stack is empty: Cannot peek");
+        }
+        return stackList.get(stackList.size() - 1);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return stackList.isEmpty();
+    }
+
+    // Dynamic stack never full
+    @Override
+    public boolean isFull() {
+        return false;
+    }
+}
+
+// iv. Demo class using interface reference to demonstrate runtime binding
+public class StackDemo {
+    public static void performStackOperations(StackOperations<Integer> stack) {
+        try {
+            System.out.println("Pushing 10");
+            stack.push(10);
+            System.out.println("Pushing 20");
+            stack.push(20);
+            System.out.println("Top element is: " + stack.peek());
+            System.out.println("Popping element: " + stack.pop());
+            System.out.println("Is stack empty? " + stack.isEmpty());
+            System.out.println("Popping element: " + stack.pop());
+            System.out.println("Is stack empty? " + stack.isEmpty());
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+        }
+        System.out.println("----------------------------");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Testing Fixed Stack (size 2):");
+        StackOperations<Integer> fixedStack = new FixedStack<>(2);
+        performStackOperations(fixedStack);
+
+        System.out.println("Testing Dynamic Stack:");
+        StackOperations<Integer> dynamicStack = new DynamicStack<>();
+        performStackOperations(dynamicStack);
+    }
+}
