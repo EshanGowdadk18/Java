@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class StringBufferOperations {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+       
+        StringBuffer sb = new StringBuffer();
+        System.out.println("Default capacity of StringBuffer: " + sb.capacity());
+
+       
+        System.out.print("Enter a string to reverse: ");
+        String input = sc.nextLine();
+        StringBuffer reversed = new StringBuffer(input);
+        reversed.reverse(); // reverse the string
+        String upperReversed = reversed.toString().toUpperCase();
+        System.out.println("Reversed & Uppercase String: " + upperReversed);
+
+       
+        System.out.print("Enter another string to append: ");
+        String appendStr = sc.nextLine();
+        String finalResult = upperReversed + appendStr;
+        System.out.println("Final Result: " + finalResult);
+
+        sc.close();
+    }
+}
