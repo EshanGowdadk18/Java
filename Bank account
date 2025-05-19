@@ -1,0 +1,71 @@
+// Custom exception class
+class LessBalanceException extends Exception {
+    public LessBalanceException(String message) {
+        super(message);
+    }
+}
+
+// Account class
+class Account {
+    private double balance;
+    private final double MIN_BALANCE = 500;
+
+    // Constructor - initialize with minimum balance
+    public Account() {
+        balance = MIN_BALANCE;
+    }
+
+    // Deposit money
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Deposited Rs " + amount + ". Current balance: Rs " + balance);
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
+    }
+
+    // Withdraw money with exception if balance falls below minimum
+    public void withdraw(double amount) throws LessBalanceException {
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount.");
+            return;
+        }
+
+        if ((balance - amount) < MIN_BALANCE) {
+            throw new LessBalanceException("Withdraw amount Rs " + amount + " is not valid. Minimum balance of Rs " + MIN_BALANCE + " must be maintained.");
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawn Rs " + amount + ". Current balance: Rs " + balance);
+        }
+    }
+
+    // Method to get current balance
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// Test class
+public class AccountTest {
+    public static void main(String[] args) {
+        Account acc1 = new Account();
+        Account acc2 = new Account();
+
+        System.out.println("Account 1 operations:");
+        acc1.deposit(1000);   // Deposit Rs 1000
+        try {
+            acc1.withdraw(1200);  // Try to withdraw Rs 1200 (should fail)
+        } catch (LessBalanceException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+
+        System.out.println("\nAccount 2 operations:");
+        acc2.deposit(2000);   // Deposit Rs 2000
+        try {
+            acc2.withdraw(1000);  // Withdraw Rs 1000 (should succeed)
+        } catch (LessBalanceException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        }
+    }
+}
