@@ -1,0 +1,17 @@
+public class ChessBoardPattern {
+    public static void main(String[] args) {
+        int size = 8; // Chessboard size
+
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                // Print '*' if sum of row and column is even, else print space
+                if ((row + col) % 2 == 0) {
+                    System.out.print("* ");
+                } else {
+                    System.out.print("  ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
