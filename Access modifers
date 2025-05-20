@@ -1,0 +1,61 @@
+Class A
+
+package apack;
+
+public class A {
+    int defaultVar = 10;           // Default access
+    protected int protectedVar = 20; // Protected access
+    private int privateVar = 30;     // Private access
+    public int publicVar = 40;       // Public access
+}
+
+Class B extends A
+
+
+package bpack;
+
+import apack.A;
+
+public class B extends A {
+    public void display() {
+        // System.out.println("Default Var: " + defaultVar); // Not accessible
+        System.out.println("Protected Var: " + protectedVar); // Accessible
+        // System.out.println("Private Var: " + privateVar); // Not accessible
+        System.out.println("Public Var: " + publicVar); // Accessible
+    }
+}
+
+Class C creates object of A
+
+
+package cpack;
+
+import apack.A;
+
+public class C {
+    public void display() {
+        A a = new A();
+        // System.out.println("Default Var: " + a.defaultVar); // Not accessible
+        // System.out.println("Protected Var: " + a.protectedVar); // Not accessible
+        // System.out.println("Private Var: " + a.privateVar); // Not accessible
+        System.out.println("Public Var: " + a.publicVar); // Accessible
+    }
+}
+
+Main Class
+package dpack;
+
+import bpack.B;
+import cpack.C;
+
+public class ProtectedDemo {
+    public static void main(String[] args) {
+        B b = new B();
+        System.out.println("From class B (subclass):");
+        b.display();
+
+        C c = new C();
+        System.out.println("\nFrom class C (non-subclass):");
+        c.display();
+    }
+}
